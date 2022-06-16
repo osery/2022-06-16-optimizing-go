@@ -1,0 +1,110 @@
+# Optimizing Go
+6 Jun 2022
+
+Ondrej Sery
+PDS TechLead, Portworx by PureStorage
+osery@purestorage.com
+
+## Outline
+
+- Benchmarks
+- Profiling
+- Tracing
+
+## Benchmarks
+
+## Go benchmarks
+
+* **In your** `*_test.go`**, functions** `Benchmark*(b *testing.B)`
+    * Loop `b.N` times with the same input
+    * Run: `go test -bench=.`
+* **Benchmarks are run with increasing** `N` **until** `benchtime=1s` **is hit**
+    * `-count=X`
+    * `-benchtime=Xs`
+    * `-benchtime=10x`
+
+## Benchmark analysis
+
+* **Use** `"golang.org/x/perf/cmd/benchstat"`
+    * Basic statistical analysis
+    * Before/after comparison
+
+## Pitfalls
+
+* **Too short** `benchtime`
+* **Too random behavior**
+* **Depending on** `b.N`
+* **Compiler optimizations**
+
+## Profiling
+
+## Profiling with "runtime/pprof"
+
+Support for profiling part of Go runtime (cpu, memory, goroutines, ...)
+
+* **Tests & benchmarks:**
+    * `go test -cpuprofile cpu.pprof -memprofile mem.pprof -bench .`
+* **Helpers for switching on and off:**
+    * `"github.com/pkg/profile"`
+    * `defer profile.Start(profile.CPUProfile).Stop()`
+* **Analyze via the Go pprof tool:**
+    * CLI: `go tool pprof cpu.pprof` (commands: top, list)
+    * UI: `go tool pprof --http=:6061 cpu.pprof`
+
+## On-demand profiling
+
+* **Registers endpoints in** `DefaultServeMux`
+    * `import _ "net/http/pprof"`
+* **Serve HTTP**
+   * `http.ListenAndServe("localhost:6060", nil)`
+* **Explore**
+    * <http://localhost:6060/debug/pprof>
+    * `go tool pprof --http=:6061 "http://localhost:6060/debug/pprof/profile?seconds=10"`
+
+## Tracing
+
+## Low-level tracing
+
+* **Record:** `"pkg/profile"` **or** `"net/http/pprof"`
+* **View:** `go tool trace -http=:6060 trace.out`
+    * Heap & GC
+    * Go routines
+    * Threads
+    * Sys-calls
+    * ...
+
+## Tracing example
+
+Let's talk (naive) parallel sorting...
+
+## User tasks & regions via "runtime/trace"
+
+* **Add more information using:** `Task`, `Region`, **and** `Log`
+    * `Log`: *Simple event with a message.*
+    * `Region`: *Block of sequential actions inside one goroutine.*
+    * `Task`: *Hierarchical across goroutines.*
+
+## HTTP client tracing "net/http/httptrace"
+
+* **Timing/callbacks for various phases of HTTP steps**
+    * DNS resolution
+    * TLS handshake
+    * Wrote headers
+    * Wrote request
+    * First response byte
+    * ...
+
+## Distributed tracing
+
+* **OpenTelemetry**
+    * API for Tracing, Metrics, Logs
+    * Supported by many big players
+    * Different implementations
+* **Jaeger**
+    * <https://www.jaegertracing.io>
+    * Toolset for distributed tracing
+    * Open source
+
+## Quiz
+
+## Questions?
