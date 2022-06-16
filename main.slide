@@ -16,7 +16,7 @@ osery@purestorage.com
 ## Go benchmarks
 
 * **In your** `*_test.go`**, functions** `Benchmark*(b *testing.B)`
-    * Loop `b.N` times with the same input
+    * Executes the same code `b.N`
     * Run: `go test -bench=.`
 * **Benchmarks are run with increasing** `N` **until** `benchtime=1s` **is hit**
     * `-count=X`
