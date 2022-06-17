@@ -6,7 +6,7 @@ Presented at Pure Storage event on the 16th of June 2022.
 ## Render
 
 Hosted on
-`talks.godoc.org`: https://talks.godoc.org/github.com/osery/2021-06-17-mocking-in-go/main.slide.
+`talks.godoc.org`: https://talks.godoc.org/github.com/osery/2022-06-16-optimizing-go/main.slide.
 
 Or run locally:
 
@@ -17,7 +17,7 @@ go run golang.org/x/tools/cmd/present -play
 And navigate to: http://127.0.0.1:3999/main.slide.
 
 
-## Running Jaeger Example
+## Running Jaeger All-in-One Container
 
 ```shell
 docker run -it --remove --name jaeger \
