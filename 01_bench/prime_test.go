@@ -7,6 +7,7 @@ import (
 )
 
 func BenchmarkPrimes(b *testing.B) {
-	// TODO: Benchmark the following call.
-	primes.Primes(100)
+	for i := 0; i < b.N; i++ {
+		primes.Primes(10000)
+	}
 }

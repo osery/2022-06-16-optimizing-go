@@ -1,12 +1,16 @@
 package main
 
 import (
+	"net/http"
+	_ "net/http/pprof"
+
 	"optimizing-go/primes"
 )
 
 func main() {
-	// TODO: Profile me.
-	for i := 0; i < 1000; i++ {
-		_ = primes.Primes(10000)
+	go http.ListenAndServe("localhost:6060", nil)
+
+	for i := 0; i < 100000; i++ {
+		_ = primes.Primes(1000000)
 	}
 }

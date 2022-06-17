@@ -9,7 +9,8 @@ func Primes(max int) []int {
 
 OUTER:
 	for i := 1; i < max; i++ {
-		for j := 2; j <= sqrt(i); j++ {
+		max := sqrt(i)
+		for j := 2; j <= max; j++ {
 			if i%j == 0 {
 				continue OUTER
 			}
